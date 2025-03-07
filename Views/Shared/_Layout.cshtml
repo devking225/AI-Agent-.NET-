@@ -4,12 +4,13 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - MyMvcApp</title>
-    <script type="importmap"></script>
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MyMvcApp.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/chatbot/index.css"  asp-append-version="true" />
 
+    @* Include React CSS *@
+    <link rel="stylesheet" href="~/chatbot/static/css/main.3930eed9.css" />
 </head>
 <body>
     <header>
@@ -33,21 +34,29 @@
             </div>
         </nav>
     </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+    @* React Chatbot Container *@
+    <div id="root"></div>
+
     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2025 - MyMvcApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/chatbot/index.js"  asp-append-version="true" ></script>
+
+    @* Include React JS *@
+    <script src="~/chatbot/static/js/453.80efc53e.chunk.js"></script>
+    <script src="~/chatbot/static/js/main.bbc03f71.js"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
 </body>
