@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        sdfwwwwwwwwwwwwwwwwwwwwwwww
+    </head>
+</html>
+
+<!-- Chatbot Input and Response Area -->
+<button id="ai-button">Ask AI</button>
+<p id="ai-response"></p>
+
+<!-- Input field for the user -->
+<input type="text" id="user-input" placeholder="Type something..." />
+<button id="submit-input">Submit</button>
+<button id="clear-history">Clear History</button>
+
+<!-- Link to Chatbot's CSS -->
+<link rel="stylesheet" href="~/widget/index.css" />
+
+<!-- jQuery (required for the chatbot JS) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Link to Chatbot's JS -->
+<script src="~/widget/index.js"></script>
+
+<script>
+    // Initialize the chatbot widget (if necessary)
+    $(document).ready(function () {
+        if (typeof initializeWidget !== "undefined") {
+            initializeWidget("#ai-widget");
+        }
+
+        // Get the userId from localStorage
+        var userId = localStorage.getItem("userId");
+
+        // If userId doesn't exist, generate a new one and store it in localStorage
+        if (!userId) {
+            userId = 'user_' + new Date().getTime(); // Example: Generate userId based on timestamp
+            localStorage.setItem("userId", userId);
+        }
+
+        // Handle user input and interaction (send message)
+        $("#submit-input").click(function () {
+            var userInput = $("#user-input").val(); // Capture input
+
+            if (userInput.trim() === "") {
+                $("#ai-response").text("Please enter something.");
+                return;
+            }
+
+            // Call the MERN backend API to process the input
+            $.ajax({
+                url: "http://localhost:5000/api/ai/process",  // MERN backend API
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ input: userInput, userId: userId }), // Send userId with input
+                success: function (response) {
+                    $("#ai-response").text(response.message); // Display AI response
+                },
+                error: function () {
+                    $("#ai-response").text("Error calling AI backend.");
+                }
+            });
+        });
+
+        // Handle chat history retrieval
+        $("#get-history").click(function () {
+            // Call the MERN backend API to get chat history
+            $.ajax({
+                url: "http://localhost:5000/api/getChatHistory",  // MERN backend API
+                method: "GET",
+                data: { userId: userId }, // Send userId to get specific history
+                success: function (response) {
+                    $("#ai-response").text("Chat History: " + JSON.stringify(response.chatHistory)); // Display history
+                },
+                error: function () {
+                    $("#ai-response").text("Error retrieving chat history.");
+                }
+            });
+        });
+
+        // Handle clear chat history
+        $("#clear-history").click(function () {
+            // Call the MERN backend API to clear chat history
+            $.ajax({
+                url: "http://localhost:5000/api/clearMessages",  // MERN backend API
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ userId: userId }), // Send userId to clear history
+                success: function (response) {
+                    $("#ai-response").text("Chat history cleared.");
+                },
+                error: function () {
+                    $("#ai-response").text("Error clearing chat history.");
+                }
+            });
+        });
+    });
+</script>

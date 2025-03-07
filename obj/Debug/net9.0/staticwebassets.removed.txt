@@ -1,0 +1,2 @@
+D:\Freelancer Project\Wayne\New folder\AI Agent(.NET)\MyMvcApp\wwwroot\chatbot\index.css
+D:\Freelancer Project\Wayne\New folder\AI Agent(.NET)\MyMvcApp\wwwroot\chatbot\index.js
